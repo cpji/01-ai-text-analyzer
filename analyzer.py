@@ -3,6 +3,9 @@ from pydantic import BaseModel
 import time
 
 
+MODEL = "gpt-5.6"
+
+
 class TextAnalysis(BaseModel):
     sentiment: str
     topic: str
@@ -15,7 +18,7 @@ def analyze_text(text):
     start_time = time.time()
 
     response = client.responses.parse(
-        model="gpt-5.6",
+    model=MODEL,
         input=[
             {
                 "role": "user",
@@ -58,4 +61,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
