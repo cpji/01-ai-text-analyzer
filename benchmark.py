@@ -1,6 +1,7 @@
 from analyzer import analyze_text
 import statistics
 
+NUM_RUNS = 2
 
 def main():
     text = input("Enter some text to analyze: ")
@@ -11,7 +12,7 @@ def main():
 
     response_times = []
 
-    for i in range(2):
+    for i in range(NUM_RUNS):
         print(f"\n--- Run {i + 1} ---")
 
         analysis, response_time = analyze_text(text)
