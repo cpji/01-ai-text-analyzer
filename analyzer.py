@@ -8,17 +8,18 @@ class TextAnalysis(BaseModel):
     topic: str
     summary: str
 
-start_time = time.time()
-client = OpenAI()
 
-text = input("Enter some text to analyze: ")
+def analyze_text(text):
+    client = OpenAI()
 
-response = client.responses.parse(
-    model="gpt-5.6",
-    input=[
-        {
-            "role": "user",
-            "content": f"""
+    start_time = time.time()
+
+    response = client.responses.parse(
+        model="gpt-5.6",
+        input=[
+            {
+                "role": "user",
+                "content": f"""
 Analyze the following text.
 
 Determine:
@@ -29,17 +30,32 @@ Determine:
 Text:
 {text}
 """
-        }
-    ],
-    text_format=TextAnalysis,
-)
+            }
+        ],
+        text_format=TextAnalysis,
+    )
 
-end_time = time.time()
+    end_time = time.time()
 
-analysis = response.output_parsed
+    analysis = response.output_parsed
+    response_time = end_time - start_time
 
-print("\nAnalysis:")
-print("Sentiment:", analysis.sentiment)
-print("Topic:", analysis.topic)
-print("Summary:", analysis.summary)
-print(f"\nAPI response time: {end_time - start_time:.2f} seconds")
+    return analysis, response_time
+
+
+def main():
+    text = input("Enter some text to analyze: ")
+
+    analysis, response_time = analyze_text(text)
+
+    print("\nAnalysis:")
+    print("Sentiment:", analysis.sentiment)
+    print("Topic:", analysis.topic)
+    print("Summary:", analysis.summary)
+
+    print(f"\nAPI response time: {response_time:.2f} seconds")
+
+
+if __name__ == "__main__":
+    main()
+    
